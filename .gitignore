@@ -1,6 +1,4 @@
-customdataset
 *.pt
-buffer
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
