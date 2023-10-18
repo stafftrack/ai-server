@@ -8,8 +8,11 @@ weights file: https://drive.google.com/file/d/1Susn5wLHALIsgtrm4xeWhYPlfXZ5ybwk/
 ```
 ln -s /path/to/weights.pt ./model.pt
 ```
-
-2. Run the server locally with:
+2. Install requirements
+```
+pip install -r requirements.txt
+```
+3. Run the server locally with:
 ```
 python app.py
 ```
