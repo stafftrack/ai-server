@@ -89,6 +89,11 @@ def predict():
         img_path, txt_path = detect("buffer/image.jpg")
         return send_file(img_path)
 
+def run():
+    app.debug = True
+    port = int(os.environ.get("PORT", 80))
+    app.run(host='0.0.0.0', port=port, debug=True)
+
 
 if __name__ == "__main__":
     app.debug = True
