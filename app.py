@@ -34,7 +34,7 @@ def hex_to_rgb(hex):
   
   return rgb
 
-def detect(source='buffer/image.jpg'):
+def detect(source='buffer/image.jpg', filename='noname.jpg'):
 
     # Set Dataloader
     dataset = LoadImages(source, img_size=imgsz, stride=stride)
@@ -96,6 +96,7 @@ def detect(source='buffer/image.jpg'):
 
             # Save results (image with detections)
             cv2.imwrite(img_path, im0)
+            cv2.imwrite(f'static/{filename}', im0)
             
             return img_path, danger, class_count
 
@@ -104,7 +105,7 @@ def predict():
     if request.method == "POST":
         file = request.files["file"]
         file.save("buffer/image.jpg")
-        img_path, danger, class_count = detect("buffer/image.jpg")
+        img_path, danger, class_count = detect("buffer/image.jpg", file.filename)
         if danger:
             return {
                 "electronic_device": class_count[0],
