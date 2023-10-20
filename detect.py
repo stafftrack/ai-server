@@ -7,6 +7,13 @@ from utils.datasets import LoadImages
 from utils.general import check_img_size, non_max_suppression, scale_coords, xyxy2xywh
 from utils.plots import plot_one_box
 
+def hex_to_rgb(hex):
+  rgb = []
+  for i in (0, 2, 4):
+    decimal = int(hex[i:i+2], 16)
+    rgb.append(decimal)
+  
+  return rgb
 
 def detect(source='buffer/image.jpg'):
     weights = 'model.pt'
@@ -27,7 +34,12 @@ def detect(source='buffer/image.jpg'):
 
     # Get names and colors
     names = model.module.names if hasattr(model, 'module') else model.names
-    colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
+    # colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
+    hex_color = ['f38ba8', 'f9e2af', '94e2d5', '74c7ec', 'b4befe']
+    colors = []
+    for h in hex_color:
+        colors.append(hex_to_rgb(h))
+    print(colors)
 
     for path, img, im0s, vid_cap in dataset:
         img = torch.from_numpy(img).to(device)
