@@ -26,14 +26,28 @@ model = attempt_load(weights, map_location=device)  # load FP32 model
 stride = int(model.stride.max())  # model stride
 imgsz = check_img_size(imgsz, s=stride)  # check img_size
 
-def detect(source='buffer/image.jpg'):
+def hex_to_rgb(hex):
+  rgb = []
+  for i in (0, 2, 4):
+    decimal = int(hex[i:i+2], 16)
+    rgb.append(decimal)
+  
+  return rgb
+
+def detect(source='buffer/image.jpg', filename='noname.jpg'):
 
     # Set Dataloader
     dataset = LoadImages(source, img_size=imgsz, stride=stride)
 
     # Get names and colors
     names = model.module.names if hasattr(model, 'module') else model.names
-    colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
+    # colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
+    hex_color = ['f38ba8', 'f9e2af', '94e2d5', '74c7ec', 'b4befe']
+    colors = []
+    for h in hex_color:
+        colors.append(hex_to_rgb(h))
+    print(colors)
+    
 
     danger = False
     class_count = [0, 0, 0, 0, 0]
@@ -77,11 +91,12 @@ def detect(source='buffer/image.jpg'):
 
                     # Add bbox to image
                     label = f'{names[int(cls)]} {conf:.2f}'
-                    plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=1)
+                    plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=0)
                     class_count[int(cls)] += 1
 
             # Save results (image with detections)
             cv2.imwrite(img_path, im0)
+            cv2.imwrite(f'static/{filename}', im0)
             
             return img_path, danger, class_count
 
@@ -90,7 +105,7 @@ def predict():
     if request.method == "POST":
         file = request.files["file"]
         file.save("buffer/image.jpg")
-        img_path, danger, class_count = detect("buffer/image.jpg")
+        img_path, danger, class_count = detect("buffer/image.jpg", file.filename)
         if danger:
             return {
                 "electronic_device": class_count[0],
