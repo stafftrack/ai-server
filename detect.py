@@ -18,7 +18,7 @@ def hex_to_rgb(hex):
 def detect(source='buffer/image.jpg'):
     weights = 'model.pt'
     imgsz = 640
-    conf_thres = 0.25
+    conf_thres = 0.5
     iou_thres = 0.45
 
     # Initialize

@@ -1,6 +1,6 @@
 # ai-server
 
-weights file: https://drive.google.com/file/d/1Susn5wLHALIsgtrm4xeWhYPlfXZ5ybwk/view?usp=sharing
+weights file: https://drive.google.com/file/d/1VH0oJikm3Z9k48q59SayyhMlK-nj5PsC/view?usp=sharing
 
 ## Test Locally
 
