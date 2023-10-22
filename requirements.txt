@@ -27,4 +27,6 @@ thop  # FLOPs computation
 Flask==2.2.2
 Werkzeug==2.3.7
 gunicorn>=20.0.4
+supabase
+apscheduler
 
