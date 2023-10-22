@@ -8,10 +8,20 @@ from utils.datasets import LoadImages
 from utils.general import check_img_size, non_max_suppression, scale_coords, xyxy2xywh
 from utils.plots import plot_one_box
 
+from apscheduler.schedulers.background import BackgroundScheduler
+from scan import update_repair_date
 from flask import Flask, jsonify, request, send_file, Response
 
 app = Flask(__name__)
 
+# Create a background scheduler
+scheduler = BackgroundScheduler(daemon=True)
+
+# Schedule the task to run every 10 seconds
+scheduler.add_job(update_repair_date, 'interval', seconds=10)
+
+# Start the scheduler
+scheduler.start()
 
 weights = 'model.pt'
 imgsz = 640
